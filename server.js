@@ -22,7 +22,7 @@ server.on('listening', function() {
   console.log('server listening ' +
     address.address + ':' + address.port);
   
-  lib.connectToClient();
+  lib.findClient();
 });
 
 server.bind(4000);

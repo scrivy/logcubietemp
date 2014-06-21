@@ -1,9 +1,10 @@
 'use strict';
 
-var dgram = require('dgram');
-
+var dgram = require('dgram')
+  , lib = require('./lib/clientlib');
 
 var client = dgram.createSocket('udp4');
+lib.init(client);
 
 client.on('error', function(err) {
   console.log('client error:\n' + err.stack);
@@ -11,7 +12,19 @@ client.on('error', function(err) {
 });
 
 client.on('message', function(msg, rinfo) {
-  console.log('client got: ' + msg + ' from ' +
+  try {
+    msg = JSON.parse(msg);
+  } catch(e) {
+    return console.error('failed to parse json message: ', e);
+  }
+
+  switch(msg.action) {
+    case 'broadcast':
+      lib.acknowledgeBroadcast(rinfo);
+      break;
+  }
+
+  console.log('client got: ' + msg.action + ' from ' +
     rinfo.address + ':' + rinfo.port);
 });
 

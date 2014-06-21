@@ -13,7 +13,19 @@ server.on('error', function(err) {
 });
 
 server.on('message', function(msg, rinfo) {
-  console.log('server got: ' + msg + ' from ' +
+  try {
+    msg = JSON.parse(msg);
+  } catch(e) {
+    return console.error('failed to parse json message: ', e);
+  }
+
+  switch(msg.action) {
+    case 'acknowledged':
+      lib.startSendingTemps(rinfo);
+      break;
+  }
+
+  console.log('server got: ' + msg.action + ' from ' +
     rinfo.address + ':' + rinfo.port);
 });
 

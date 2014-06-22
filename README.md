@@ -1,4 +1,4 @@
 logcubietemp
 ============
 
-client server scripts to remotely log the cubie temp
+client and server scripts to remotely log the cubieboard 2 cpu temperature

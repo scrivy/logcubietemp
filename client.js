@@ -22,6 +22,10 @@ client.on('message', function(msg, rinfo) {
     case 'broadcast':
       lib.acknowledgeBroadcast(rinfo);
       break;
+    case 'temp':
+      lib.saveTemp(msg.data);
+      console.log('current temp: ', msg.data.temp);
+      break;
   }
 
   console.log('client got: ' + msg.action + ' from ' +
